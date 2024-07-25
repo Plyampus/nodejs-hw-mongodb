@@ -68,7 +68,7 @@ export const deleteContactByIdController = async (req, res, next) => {
   res.status(204).send();
 };
 
-export const upsertContactController = async (req, res, next) => {
+export const updateContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
 
   const result = await updateContactByIdService(contactId, req.body, {
