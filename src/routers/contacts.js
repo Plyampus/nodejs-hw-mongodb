@@ -20,5 +20,4 @@ router.patch('/:contactId', ctrlWrapper(patchContactController));
 
 router.delete('/:contactId', ctrlWrapper(deleteContactByIdController));
 
-
 export default router;
