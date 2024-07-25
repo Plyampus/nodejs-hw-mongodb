@@ -67,23 +67,3 @@ export const deleteContactByIdController = async (req, res, next) => {
 
   res.status(204).send();
 };
-
-export const updateContactByIdController = async (req, res, next) => {
-  const { contactId } = req.params;
-
-  const result = await updateContactByIdService(contactId, req.body, {
-    upsert: true,
-  });
-
-  if (!result) {
-    throw createHttpError(404, 'Contact not found');
-  }
-
-  const status = result.isNew ? 201 : 200;
-
-  res.status(status).json({
-    status,
-    message: `Successfully upserted a contact!`,
-    data: result.contact,
-  });
-};
