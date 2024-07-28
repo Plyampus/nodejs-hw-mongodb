@@ -2,7 +2,13 @@ import { SORT_ORDER } from '../constants/index.js';
 import { ContactsCollection } from '../db/models/contacts.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
-export const getAllContactsService = async ({ page = 1, perPage = 20, sortOrder = SORT_ORDER.ASC, sortBy = '_id', filter = {}, }) => {
+export const getAllContactsService = async ({
+  page = 1,
+  perPage = 20,
+  sortOrder = SORT_ORDER.ASC,
+  sortBy = '_id',
+  filter = {},
+}) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
@@ -20,10 +26,18 @@ export const getAllContactsService = async ({ page = 1, perPage = 20, sortOrder 
     .merge(contactsQuery)
     .countDocuments();
 
-  const contacts = await contactsQuery.skip(skip).limit(limit).sort({ [sortBy]: sortOrder }).exec();
-  const paginationData = calculatePaginationData(contactsCount, perPage, page);
+  const contacts = await contactsQuery
+    .skip(skip)
+    .limit(limit)
+    .sort({ [sortBy]: sortOrder })
+    .exec();
+
+  const paginationData = calculatePaginationData(contactsCount,
+    perPage, page);
+
   return {
-    data: contacts, ...paginationData,
+    data: contacts,
+    ...paginationData,
   };
 };
 
@@ -38,7 +52,15 @@ export const createContactService = async (payload) => {
 };
 
 export const updateContactByIdService = async (contactId, payload, options = {}) => {
-  const rawResult = await ContactsCollection.findOneAndUpdate({ _id: contactId }, payload, { new: true, includeResultMetadata: true, ...options, },);
+  const rawResult = await ContactsCollection.findOneAndUpdate(
+    { _id: contactId },
+    payload,
+    {
+      new: true,
+      includeResultMetadata: true,
+      ...options,
+    },
+  );
 
   if (!rawResult || !rawResult.value) return null;
 
@@ -50,7 +72,7 @@ export const updateContactByIdService = async (contactId, payload, options = {})
 
 export const deleteContactByIdService = async (contactId) => {
   const contact = await ContactsCollection.findOneAndDelete({
-    _id: contactId,
+    _id: contactId
   });
   return contact;
 };
