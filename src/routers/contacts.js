@@ -16,15 +16,15 @@ const router = Router();
 
 router.get('/', ctrlWrapper(getAllContactsController));
 
-router.get('/contacts/:contactId', isValidId, ctrlWrapper(getContactByIdController));
+router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController));
 
-router.post('/', validateBody(createContactSchema), ctrlWrapper(createContactController));
+router.post('/register', validateBody(createContactSchema), ctrlWrapper(createContactController));
 
-router.patch('/contacts/:contactId', isValidId, validateBody(updateContactSchema), ctrlWrapper(patchContactController));
+router.patch('/:contactId', isValidId, validateBody(updateContactSchema), ctrlWrapper(patchContactController));
 
-router.put('/contacts/:contactId', isValidId, validateBody(createContactSchema), ctrlWrapper(upsertContactController));
+router.put('/:contactId', isValidId, validateBody(createContactSchema), ctrlWrapper(upsertContactController));
 
-router.delete('/contacts/:contactId', isValidId, ctrlWrapper(deleteContactByIdController));
+router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactByIdController));
 
 
 export default router;
