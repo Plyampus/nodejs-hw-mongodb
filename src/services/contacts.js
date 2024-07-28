@@ -10,8 +10,8 @@ export const getContactByIdService = async (contactId) => {
   return contact;
 };
 
-export const createContactService = async (payload) => {
-  const contact = await ContactsCollection.create(payload);
+export const createContactService = async (prodactData) => {
+  const contact = await ContactsCollection.create(prodactData);
   return contact;
 };
 

@@ -18,7 +18,7 @@ export const getAllContactsController = async (req, res, next) => {
 
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
-  const contact = getContactByIdService(contactId);
+  const contact = await getContactByIdService(contactId);
 
   if (!contact) {
     throw createHttpError(404, 'Contact not found');
@@ -31,7 +31,7 @@ export const getContactByIdController = async (req, res, next) => {
   });
 };
 
-export const createContactController = async (req, res, next) => {
+export const createContactController = async (req, res) => {
   const contact = await createContactService(req.body);
 
   res.status(201).json({
