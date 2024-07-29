@@ -1,8 +1,14 @@
-export const calculatePaginationData = (count, perPage, page) => ({
-  page,
-  perPage,
-  totalItems: count,
-  totalPages: Math.ceil(count / perPage),
-  hasNextPage: page < Math.ceil(count / perPage),
-  hasPreviousPage: page > 0,
-});
+export const calculatePaginationData = (count, perPage, page) => {
+  const totalPages = Math.floor((count + perPage - 1) / perPage);
+  const hasNextPage = page < totalPages;
+  const hasPreviousPage = page > 1;
+
+  return {
+    page,
+    perPage,
+    totalItems: count,
+    totalPages,
+    hasNextPage,
+    hasPreviousPage,
+  };
+};
