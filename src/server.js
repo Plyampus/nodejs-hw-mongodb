@@ -1,7 +1,7 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
-import contactsRouter from './routers/contacts.js';
+import router from './routers/contacts.js';
 import env from './utils/env.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
@@ -11,8 +11,8 @@ const PORT = Number(env('PORT', '8080'));
 export const startServer = () => {
   const app = express();
 
+  app.use(express.json());
   app.use(cors());
-
   app.use(
     pino({
       transport: {
@@ -21,7 +21,7 @@ export const startServer = () => {
     }),
   );
 
-  app.use(contactsRouter);
+  app.use('/contacts', router);
 
   app.use('*', notFoundHandler);
 
