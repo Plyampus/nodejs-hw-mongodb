@@ -10,26 +10,27 @@ import cookieParser from 'cookie-parser';
 const PORT = Number(env('PORT', '8080'));
 
 export const startServer = () => {
-    const app = express();
+  const app = express();
 
-    app.use(express.json());
-    app.use(cors());
-    app.use(cookieParser());
-    app.use(
-        pino({
-            transport: {
-                target: 'pino-pretty',
-            },
-        }),
-    );
+  app.use(cors());
 
-    app.use(router);
+  app.use(cookieParser());
 
-    app.use('*', notFoundHandler);
+  app.use(
+    pino({
+      transport: {
+        target: 'pino-pretty',
+      },
+    }),
+  );
 
-    app.use(errorHandler);
+  app.use(router);
 
-    app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
-    });
+  app.use('*', notFoundHandler);
+
+  app.use(errorHandler);
+
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
 };
