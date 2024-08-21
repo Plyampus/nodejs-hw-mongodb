@@ -106,7 +106,7 @@ export const requestResetToken = async (email) => {
       sub: user._id,
       email,
     },
-    env('JWT_SECRET'),
+    process.env.JWT_SECRET,
     {
       expiresIn: '5m',
     },
@@ -124,8 +124,9 @@ export const requestResetToken = async (email) => {
   const template = handlebars.compile(templateSource);
   const html = template({
     name: user.name,
-    link: `${env('APP_DOMAIN')}/auth/reset-password?token=${resetToken}`,
+    link: `${env('APP_DOMAIN')}/reset-password?token=${resetToken}`,
   });
+
   try {
     await sendEmail({
       from: env(SMTP.SMTP_FROM),
