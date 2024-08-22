@@ -37,14 +37,14 @@ router.post('/logout', parseJSON, ctrlWrapper(logoutUserController));
 
 router.post('/refresh', parseJSON, ctrlWrapper(refreshUserSessionController));
 router.post(
-  '/request-reset-email',
+  '/send-reset-email',
   parseJSON,
   validateBody(requestResetEmailSchema),
   ctrlWrapper(requestResetEmailController),
 );
 
 router.post(
-  '/reset-password',
+  '/reset-pwd',
   parseJSON,
   validateBody(resetPasswordSchema),
   ctrlWrapper(resetPasswordController),
