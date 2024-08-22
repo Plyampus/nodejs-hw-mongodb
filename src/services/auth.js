@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+
 import bcrypt from 'bcrypt';
 import { UsersCollection } from '../db/models/user.js';
 import createHttpError from 'http-errors';
@@ -11,7 +13,7 @@ import {
 import { randomBytes } from 'crypto';
 import { sendEmail } from '../utils/sendMail.js';
 import env from '../utils/env.js';
-import jwt from 'jsonwebtoken';
+
 import handlebars from 'handlebars';
 import path from 'node:path';
 import fs from 'node:fs/promises';
@@ -101,6 +103,7 @@ export const requestResetToken = async (email) => {
   if (!user) {
     throw createHttpError(404, 'User not found');
   }
+
   const resetToken = jwt.sign(
     {
       sub: user._id,
@@ -127,19 +130,12 @@ export const requestResetToken = async (email) => {
     link: `${env('APP_DOMAIN')}/reset-password?token=${resetToken}`,
   });
 
-  try {
-    await sendEmail({
-      from: env(SMTP.SMTP_FROM),
-      to: email,
-      subject: 'Reset your password',
-      html,
-    });
-  } catch {
-    throw createHttpError(
-      500,
-      'Failed to send the email, please try again later.',
-    );
-  }
+  await sendEmail({
+    from: SMTP.SMTP_FROM,
+    to: email,
+    subject: 'Reset your password',
+    html,
+  });
 };
 
 export const resetPassword = async (payload) => {
